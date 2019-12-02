@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#A03D89</color>
+    <color name="cinza_medium">#EBEBEB</color>
+    <color name="toolbarPrincipal">#FFFFFF</color>
+    <color name="Purple">#462759</color>
+    <color name="alterarFoto">#3F51B5</color>
+</resources>

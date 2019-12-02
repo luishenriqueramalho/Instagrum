@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "842367320232",
+    "firebase_url": "https://instagrum-39788.firebaseio.com",
+    "project_id": "instagrum-39788",
+    "storage_bucket": "instagrum-39788.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842367320232:android:4bc6ab8629f6d10252c29d",
+        "android_client_info": {
+          "package_name": "com.example.instagrum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "842367320232-3k3h2mpf50flpcl9usm65am7o2nsps97.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.instagrum",
+            "certificate_hash": "3bdde668ee6c94f8eed0fbf21cd0ecaef735a5c8"
+          }
+        },
+        {
+          "client_id": "842367320232-dtnhpu2fvnkaquj1ggveq2ftge0rgrja.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGuvtfw6ufmvWbEqzjftBe3SuqXQn3JWs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "842367320232-dtnhpu2fvnkaquj1ggveq2ftge0rgrja.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
