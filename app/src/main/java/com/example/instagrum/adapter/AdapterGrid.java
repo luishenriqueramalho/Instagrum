@@ -1,6 +1,7 @@
 package com.example.instagrum.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.instagrum.R;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.List;
 
@@ -40,8 +44,8 @@ public class AdapterGrid extends ArrayAdapter<String> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        ViewHolder viewHolder;
-        if  ( convertView != null ) {
+        final ViewHolder viewHolder;
+        if  ( convertView == null ) {
 
             viewHolder = new ViewHolder();
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -56,6 +60,31 @@ public class AdapterGrid extends ArrayAdapter<String> {
             viewHolder = (ViewHolder) convertView.getTag();
 
         }
+
+        // Rec dados img
+        String urlImage = getItem( position );
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.displayImage(urlImage, viewHolder.image, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String s, View view) {
+                viewHolder.progressBar.setVisibility( View.VISIBLE );
+            }
+
+            @Override
+            public void onLoadingFailed(String s, View view, FailReason failReason) {
+                viewHolder.progressBar.setVisibility( View.GONE );
+            }
+
+            @Override
+            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                viewHolder.progressBar.setVisibility( View.GONE );
+            }
+
+            @Override
+            public void onLoadingCancelled(String s, View view) {
+                viewHolder.progressBar.setVisibility( View.GONE );
+            }
+        });
 
         return convertView;
     }

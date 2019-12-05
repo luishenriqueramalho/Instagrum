@@ -28,6 +28,18 @@ public class User implements Serializable {
         userRef.setValue( this );
     }
 
+    public void attQntPost() {
+
+        DatabaseReference firebaseRef = ConfigFirebase.getRefFirebase();
+        DatabaseReference userRef = firebaseRef.child("usuarios").child( getId() );
+
+        HashMap<String, Object> dados = new HashMap<>();
+        dados.put("post", getPost());
+
+        userRef.updateChildren( dados );
+
+    }
+
     public void att() {
 
         DatabaseReference firebaseRef = ConfigFirebase.getRefFirebase();

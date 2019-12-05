@@ -4,11 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -24,6 +24,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +40,7 @@ public class ProfileFriendsActivity extends AppCompatActivity {
     private Button btnActionProfile;
     private CircleImageView imgEditProfile;
     private TextView txtPost, txtFollowers, txtFollowing;
-    private GridView gridProfile;
+    private GridView gridViewProfile;
     private AdapterGrid adapterGrid;
 
     private DatabaseReference firebaseRef;
@@ -50,6 +52,7 @@ public class ProfileFriendsActivity extends AppCompatActivity {
     private DatabaseReference postUserRef;
 
     private String idUserLogado;
+    private List<Post> posts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,31 +96,70 @@ public class ProfileFriendsActivity extends AppCompatActivity {
 
         }
 
+        // Initial img loader
+        initialImageLoader();
+
         // Carregar as fotos da postagem
         loadingPhotoPost();
+
+        // Open photo
+        gridViewProfile.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Post post = posts.get( position );
+                Intent i = new Intent( getApplicationContext(), VisualizePostActivity.class );
+
+                i.putExtra("post", post);
+                i.putExtra("user", userSelect);
+
+                startActivity( i );
+
+            }
+        });
+
+    }
+
+    public void initialImageLoader() {
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration
+                .Builder(this)
+                /* https://github.com/nostra13/Android-Universal-Image-Loader/wiki/Configuration
+                Colocar o memoryCache e displayCache para carregamento mais rápido nas fotos
+                */
+                .build();
+        ImageLoader.getInstance().init( config );
 
     }
 
     public void loadingPhotoPost() {
 
+        posts = new ArrayList<>();
         postUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                // Config size grid
+                int sizeGrid = getResources().getDisplayMetrics().widthPixels;
+                int sizeImg  = sizeGrid / 3;
+                gridViewProfile.setColumnWidth( sizeImg );
+
                 List<String> urlPhotos = new ArrayList<>();
                 for ( DataSnapshot ds: dataSnapshot.getChildren() ) {
                     Post post = ds.getValue(Post.class);
+                    posts.add( post );
                     urlPhotos.add( post.getPhoto() );
                     //Log.i("Post", "url: " +post.getPhoto());
 
                 }
 
+                // remove
                 int qtdPost = urlPhotos.size();
                 txtPost.setText( String.valueOf( qtdPost ) );
 
                 // Config adapter
                 adapterGrid = new AdapterGrid(getApplicationContext(), R.layout.grid_post, urlPhotos);
-                gridProfile.setAdapter( adapterGrid );
+                gridViewProfile.setAdapter( adapterGrid );
 
             }
 
@@ -138,7 +180,7 @@ public class ProfileFriendsActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         userLogado = dataSnapshot.getValue( User.class );
 
-                        // Verificar se o user já segue
+                        // Verificar se o user já segue o amigo
                         verifyFollowFriend();
 
                     }
@@ -275,8 +317,8 @@ public class ProfileFriendsActivity extends AppCompatActivity {
 
     private void initialComponents() {
 
-        imgEditProfile   = findViewById(R.id.imgEditProfile);
-        gridProfile      = findViewById(R.id.gridProfile);
+        imgEditProfile   = findViewById(R.id.imgProfilePost);
+        gridViewProfile  = findViewById(R.id.gridProfile);
         btnActionProfile = findViewById(R.id.btnActionProfile);
         txtPost          = findViewById(R.id.txtPost);
         txtFollowers     = findViewById(R.id.txtFollowers);

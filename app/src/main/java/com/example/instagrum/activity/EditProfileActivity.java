@@ -197,7 +197,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     public void initialComponents() {
 
-        imgProfile      = findViewById(R.id.imgEditProfile);
+        imgProfile      = findViewById(R.id.imgProfilePost);
         txtAlterarPhoto     = findViewById(R.id.txtEditAlterar);
         txtEditNameProfile  = findViewById(R.id.txtEditName);
         txtEditEmailProfile = findViewById(R.id.txtEditEmail);

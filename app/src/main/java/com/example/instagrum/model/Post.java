@@ -5,7 +5,9 @@ import android.provider.ContactsContract;
 import com.example.instagrum.helper.ConfigFirebase;
 import com.google.firebase.database.DatabaseReference;
 
-public class Post {
+import java.io.Serializable;
+
+public class Post implements Serializable {
 
     private String id;
     private String idUser;

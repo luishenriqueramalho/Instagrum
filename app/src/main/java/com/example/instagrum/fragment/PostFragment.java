@@ -1,6 +1,5 @@
 package com.example.instagrum.fragment;
 
-
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -38,7 +37,6 @@ public class PostFragment extends Fragment {
     public PostFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
